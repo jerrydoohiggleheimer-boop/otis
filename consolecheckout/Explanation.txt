@@ -1,0 +1,32 @@
+JavaScript type conversion is important in this checkout calculator because raw input is often received as a string, even when the user intends to enter a number. For example, the value "25.00" is a string rather than a numeric value. Before performing calculations, the program uses the Number() function to convert the string into a number.
+
+After conversion, the program uses Number.isFinite() to make sure the result is a valid finite number. This prevents values such as "abc", Infinity, and NaN from being used in the checkout calculations. Without this validation, the program could produce incorrect totals or unexpected results.
+
+The calculator also validates the converted values against business rules. Prices cannot be negative, and quantities must be at least one. The discount and tax percentages must also be valid non-negative numbers.
+
+Another important decision is waiting to format money until it is displayed. The program keeps calculations as numbers and uses toFixed(2) only when creating the receipt. This prevents formatted strings from being accidentally used in mathematical calculations.
+
+The most difficult decision was determining how to handle a discount greater than the subtotal. Instead of allowing the final total to become negative, the program rejects the transaction. The test case provides evidence that this rule works as intended.
+
+
+
+| Requirement                     | Example Evidence                                                    |
+| ------------------------------- | ------------------------------------------------------------------- |
+| 5+ `const` bindings             | `price`, `quantity`, `discountPercent`, `taxRate`, `subtotal`, etc. |
+| 1 justified `let`               | `receiptMessage` is built incrementally                             |
+| Subtotal separate expression    | `const subtotal = price * quantity`                                 |
+| Discount separate expression    | `const discountAmount = ...`                                        |
+| Tax separate expression         | `const taxAmount = ...`                                             |
+| Final total separate expression | `const finalTotal = ...`                                            |
+| Reject non-finite numbers       | `Number.isFinite()`                                                 |
+| Reject negative prices          | `if (price < 0)`                                                    |
+| Reject quantity below 1         | `if (quantity < 1)`                                                 |
+| Money to 2 decimals             | `.toFixed(2)` only during output                                    |
+| Normal test                     | Test 1                                                              |
+| One-item boundary               | Test 2                                                              |
+| Invalid numeric input           | Test 3                                                              |
+| Excessive discount              | Test 4                                                              |
+| README                          | Included                                                            |
+| `tests.md`                      | Included                                                            |
+| Type conversion explanation     | Included                                                            |
+| Optional shipping               | Correctly skipped                                                   |
